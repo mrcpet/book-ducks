@@ -12,14 +12,14 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "color_theme": {
+    "colorTheme": {
       "type": "enumeration",
       "enum": [
-        "Dark",
-        "Light",
-        "Summer"
+        "dark",
+        "light",
+        "summer"
       ],
-      "default": "Dark"
+      "default": "dark"
     }
   }
 }

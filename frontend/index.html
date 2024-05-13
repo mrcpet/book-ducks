@@ -20,25 +20,41 @@
     />
   </head>
   <body>
-    <h1>booK ducKs</h1>
-    <button id="loginModalBtn">Log in</button>
-    <button id="registerModalBtn">Register</button>
-    <div id="registerModal" class="hidden">
-      <label for="usernameInput">Username</label>
-      <input type="text" name="register" id="usernameInput" />
-      <label for="userEmailInput">Email</label>
-      <input type="email" name="register" id="userEmailInput" />
-      <input type="password" name="register" id="userPasswordInput" />
-      <button id="registerUserBtn">Register me!</button>
+    <div class="page-wrapper">
+      <h1>booK ducKs</h1>
+      <div id="overlayContainer" class="hidden overlay"></div>
+      <section id="loginSection">
+        <button id="loginModalBtn">Log in</button>
+        <button id="registerModalBtn">Register</button>
+        <div id="registerModal" class="hidden">
+          <label for="usernameInput">Username</label>
+          <input type="text" name="register" id="usernameInput" />
+          <label for="userEmailInput">Email</label>
+          <input type="email" name="register" id="userEmailInput" />
+          <label for="userPasswordInput">Password</label>
+          <input type="password" name="register" id="userPasswordInput" />
+          <button id="registerUserBtn">Register me!</button>
+        </div>
+        <div id="loginModal" class="hidden">
+          <label for="identifierInput">Username or email</label>
+          <input type="text" name="login" id="identifierInput" />
+          <label for="passwordInput">Password</label>
+          <input type="password" name="login" id="passwordInput" />
+          <button id="loginBtn">Log in!</button>
+        </div>
+      </section>
+      <section id="userNav" class="hidden">
+        <h2>Welcome back, <span id="currentUserName">User</span></h2>
+        <nav>
+          <ul>
+            <li><button>My page</button></li>
+            <li><button>Log out</button></li>
+          </ul>
+        </nav>
+      </section>
+      <!-- fix modal -->
+      <h2>Our books</h2>
+      <section id="bookSection"></section>
     </div>
-    <div id="loginModal" class="hidden">
-      <label for="identifierInput">Username or email</label>
-      <input type="text" name="login" id="identifierInput" />
-      <label for="passwordInput">Password</label>
-      <input type="password" name="login" id="passwordInput" />
-      <button id="loginBtn">Log in!</button>
-    </div>
-    <!-- fix modal -->
-    <div class="overlayContainer"></div>
   </body>
 </html>

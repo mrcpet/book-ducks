@@ -407,8 +407,8 @@ export interface ApiWebpageWebpage extends Schema.SingleType {
     draftAndPublish: false;
   };
   attributes: {
-    color_theme: Attribute.Enumeration<['Dark', 'Light', 'Summer']> &
-      Attribute.DefaultTo<'Dark'>;
+    colorTheme: Attribute.Enumeration<['dark', 'light', 'summer']> &
+      Attribute.DefaultTo<'dark'>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
