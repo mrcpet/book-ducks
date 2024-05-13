@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Book Ducks</title>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.8/axios.min.js"
+      integrity="sha512-PJa3oQSLWRB7wHZ7GQ/g+qyv6r4mbuhmiDb8BjSFZ8NZ2a42oTtAq5n0ucWAwcQDlikAtkub+tPVCw4np27WCg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script src="assets/script/main.js" defer></script>
+    <link rel="stylesheet" href="assets/scss/main.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Major+Mono+Display&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <h1>booK ducKs</h1>
+    <button id="loginModalBtn">Log in</button>
+    <button id="registerModalBtn">Register</button>
+    <div id="registerModal" class="hidden">
+      <label for="usernameInput">Username</label>
+      <input type="text" name="register" id="usernameInput" />
+      <label for="userEmailInput">Email</label>
+      <input type="email" name="register" id="userEmailInput" />
+      <input type="password" name="register" id="userPasswordInput" />
+      <button id="registerUserBtn">Register me!</button>
+    </div>
+    <div id="loginModal" class="hidden">
+      <label for="identifierInput">Username or email</label>
+      <input type="text" name="login" id="identifierInput" />
+      <label for="passwordInput">Password</label>
+      <input type="password" name="login" id="passwordInput" />
+      <button id="loginBtn">Log in!</button>
+    </div>
+    <!-- fix modal -->
+    <div class="overlayContainer"></div>
+  </body>
+</html>

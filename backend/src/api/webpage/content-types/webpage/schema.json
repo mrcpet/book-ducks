@@ -1,0 +1,25 @@
+{
+  "kind": "singleType",
+  "collectionName": "webpages",
+  "info": {
+    "singularName": "webpage",
+    "pluralName": "webpages",
+    "displayName": "webpage",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "color_theme": {
+      "type": "enumeration",
+      "enum": [
+        "Dark",
+        "Light",
+        "Summer"
+      ],
+      "default": "Dark"
+    }
+  }
+}
