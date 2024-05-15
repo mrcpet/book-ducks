@@ -18,15 +18,26 @@
       href="https://fonts.googleapis.com/css2?family=Major+Mono+Display&display=swap"
       rel="stylesheet"
     />
+    <script
+      src="https://kit.fontawesome.com/c29d3c799e.js"
+      crossorigin="anonymous"
+    ></script>
   </head>
   <body>
+    <header>
+      <img id="logo" src="assets/images/logo.png" alt="logo" />
+    </header>
+    <!-- Toast notification element -->
+    <div id="toastNotification" class="toastNotification"></div>
+
     <div class="page-wrapper">
-      <h1>booK ducKs</h1>
+      <!-- <h1>booK ducKs</h1> -->
       <div id="overlayContainer" class="hidden overlay"></div>
       <section id="loginSection">
         <button id="loginModalBtn">Log in</button>
         <button id="registerModalBtn">Register</button>
         <div id="registerModal" class="hidden">
+          <i class="fa-regular fa-circle-xmark close-button"></i>
           <label for="usernameInput">Username</label>
           <input type="text" name="register" id="usernameInput" />
           <label for="userEmailInput">Email</label>
@@ -36,25 +47,44 @@
           <button id="registerUserBtn">Register me!</button>
         </div>
         <div id="loginModal" class="hidden">
+          <i class="fa-regular fa-circle-xmark close-button"></i>
           <label for="identifierInput">Username or email</label>
           <input type="text" name="login" id="identifierInput" />
           <label for="passwordInput">Password</label>
           <input type="password" name="login" id="passwordInput" />
           <button id="loginBtn">Log in!</button>
+          <span id="errorMsg">test</span>
         </div>
       </section>
       <section id="userNav" class="hidden">
-        <h2>Welcome back, <span id="currentUserName">User</span></h2>
+        <h2>Welcome <span id="currentUserName">User</span></h2>
         <nav>
           <ul>
-            <li><button>My page</button></li>
-            <li><button>Log out</button></li>
+            <li><button id="homeBtn">Home</button></li>
+            <li><button id="myPageBtn">My page</button></li>
+            <li><button id="logOutBtn">Log out</button></li>
           </ul>
         </nav>
       </section>
-      <!-- fix modal -->
-      <h2>Our books</h2>
-      <section id="bookSection"></section>
+      <section id="bookSectionContainer">
+        <h2>Our books</h2>
+        <article id="bookSection"></article>
+      </section>
+      <section id="userPageSection" class="hidden">
+        <h2>Reading list</h2>
+        <article id="readListBtns">
+          <button id="sortTitleBtn">Sort by title</button>
+          <button id="sortAuthorBtn">Sort by author</button>
+        </article>
+        <article id="userReadingList"></article>
+        <h2>Rated books</h2>
+        <article id="ratedListBtns">
+          <button id="sortTitleBtn2">Sort by title</button>
+          <button id="sortAuthorBtn2">Sort by author</button>
+          <button id="sortRatingBtn">Sort by rating</button>
+        </article>
+        <article id="userRatedList"></article>
+      </section>
     </div>
   </body>
 </html>

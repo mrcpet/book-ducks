@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "toreads",
+  "info": {
+    "singularName": "toread",
+    "pluralName": "toreads",
+    "displayName": "Toread",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "books": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::book.book",
+      "inversedBy": "toreads"
+    },
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "toreads"
+    },
+    "bookId": {
+      "type": "integer"
+    }
+  }
+}

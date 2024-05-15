@@ -367,7 +367,8 @@ export interface ApiBookBook extends Schema.CollectionType {
   info: {
     singularName: 'book';
     pluralName: 'books';
-    displayName: 'book';
+    displayName: 'Book';
+    description: '';
   };
   options: {
     draftAndPublish: false;
@@ -386,11 +387,61 @@ export interface ApiBookBook extends Schema.CollectionType {
       >;
     release: Attribute.Date;
     cover: Attribute.Media;
+    toreads: Attribute.Relation<
+      'api::book.book',
+      'manyToMany',
+      'api::toread.toread'
+    >;
+    users_permissions_users: Attribute.Relation<
+      'api::book.book',
+      'oneToMany',
+      'plugin::users-permissions.user'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<'api::book.book', 'oneToOne', 'admin::user'> &
       Attribute.Private;
     updatedBy: Attribute.Relation<'api::book.book', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+  };
+}
+
+export interface ApiToreadToread extends Schema.CollectionType {
+  collectionName: 'toreads';
+  info: {
+    singularName: 'toread';
+    pluralName: 'toreads';
+    displayName: 'Toread';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    books: Attribute.Relation<
+      'api::toread.toread',
+      'manyToMany',
+      'api::book.book'
+    >;
+    user: Attribute.Relation<
+      'api::toread.toread',
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    bookId: Attribute.Integer;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::toread.toread',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::toread.toread',
+      'oneToOne',
+      'admin::user'
+    > &
       Attribute.Private;
   };
 }
@@ -806,7 +857,6 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
   options: {
     draftAndPublish: false;
-    timestamps: true;
   };
   attributes: {
     username: Attribute.String &
@@ -834,6 +884,16 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'plugin::users-permissions.user',
       'manyToOne',
       'plugin::users-permissions.role'
+    >;
+    toreads: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToMany',
+      'api::toread.toread'
+    >;
+    book: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'manyToOne',
+      'api::book.book'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -863,6 +923,7 @@ declare module '@strapi/types' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'api::book.book': ApiBookBook;
+      'api::toread.toread': ApiToreadToread;
       'api::webpage.webpage': ApiWebpageWebpage;
       'plugin::upload.file': PluginUploadFile;
       'plugin::upload.folder': PluginUploadFolder;
