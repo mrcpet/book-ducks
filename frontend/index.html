@@ -18,6 +18,12 @@
       href="https://fonts.googleapis.com/css2?family=Major+Mono+Display&display=swap"
       rel="stylesheet"
     />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="assets/css/starability-basic.css"
+    />
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16x16.png">
     <script
       src="https://kit.fontawesome.com/c29d3c799e.js"
       crossorigin="anonymous"
@@ -27,15 +33,47 @@
     <header>
       <img id="logo" src="assets/images/logo.png" alt="logo" />
     </header>
-    <!-- Toast notification element -->
+    <!-- toast notification element -->
     <div id="toastNotification" class="toastNotification"></div>
 
     <div class="page-wrapper">
       <!-- <h1>booK ducKs</h1> -->
       <div id="overlayContainer" class="hidden overlay"></div>
+      <!--rating modal-->
+              <div id="ratingModal" class="hidden">
+          <i class="fa-regular fa-circle-xmark close-button"></i>
+          <fieldset class="starability-basic">
+            <legend>Your rating:</legend>
+            <input
+              type="radio"
+              id="no-rate"
+              class="input-no-rate"
+              name="rating"
+              value="0"
+              checked
+              aria-label="No rating."
+            />
+            <input type="radio" id="first-rate1" name="rating" value="1" />
+            <label for="first-rate1" title="Terrible">1 star</label>
+
+            <input type="radio" id="first-rate2" name="rating" value="2" />
+            <label for="first-rate2" title="Not good">2 stars</label>
+
+            <input type="radio" id="first-rate3" name="rating" value="3" />
+            <label for="first-rate3" title="Okay">3 stars</label>
+
+            <input type="radio" id="first-rate4" name="rating" value="4" />
+            <label for="first-rate4" title="Good">4 stars</label>
+
+            <input type="radio" id="first-rate5" name="rating" value="5" />
+            <label for="first-rate5" title="Best book ever">5 stars</label>
+          </fieldset>
+          <button id="addRatingBtn">Add rating</button>
+        </div>
       <section id="loginSection">
         <button id="loginModalBtn">Log in</button>
         <button id="registerModalBtn">Register</button>
+             <!--register modal-->
         <div id="registerModal" class="hidden">
           <i class="fa-regular fa-circle-xmark close-button"></i>
           <label for="usernameInput">Username</label>
@@ -46,6 +84,7 @@
           <input type="password" name="register" id="userPasswordInput" />
           <button id="registerUserBtn">Register me!</button>
         </div>
+             <!--login modal-->
         <div id="loginModal" class="hidden">
           <i class="fa-regular fa-circle-xmark close-button"></i>
           <label for="identifierInput">Username or email</label>
@@ -70,14 +109,15 @@
         <h2>Our books</h2>
         <article id="bookSection"></article>
       </section>
-      <section id="userPageSection" class="hidden">
-        <h2>Reading list</h2>
+      <section id="userPageContainer" class="hidden">
+        <h3>Profile</h3>
+        <h4>Reading list</h4>
         <article id="readListBtns">
           <button id="sortTitleBtn">Sort by title</button>
           <button id="sortAuthorBtn">Sort by author</button>
         </article>
         <article id="userReadingList"></article>
-        <h2>Rated books</h2>
+        <h4>Rated books</h4>
         <article id="ratedListBtns">
           <button id="sortTitleBtn2">Sort by title</button>
           <button id="sortAuthorBtn2">Sort by author</button>

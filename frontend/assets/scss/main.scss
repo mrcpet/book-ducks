@@ -43,7 +43,7 @@ body {
     }
     #userNav {
       display: flex;
-      justify-content: center;
+      justify-content: space-around;
       nav {
         ul {
           display: flex;
@@ -51,10 +51,22 @@ body {
         }
       }
     }
+    #userPageContainer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      #userRatedList {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem;
+      }
+    }
     #bookSection,
     #userReadingList {
       display: flex;
       flex-wrap: wrap;
+      justify-content: center;
       gap: 1rem;
       .book-card {
         border: 1px solid red;

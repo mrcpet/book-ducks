@@ -71,11 +71,11 @@
       "target": "api::toread.toread",
       "mappedBy": "user"
     },
-    "book": {
+    "ratings": {
       "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::book.book",
-      "inversedBy": "users_permissions_users"
+      "relation": "oneToMany",
+      "target": "api::rating.rating",
+      "mappedBy": "user"
     }
   }
 }

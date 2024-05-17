@@ -21,10 +21,10 @@
     "pages": {
       "type": "integer"
     },
-    "rating": {
+    "average_rating": {
       "type": "decimal",
       "min": 1,
-      "max": 10
+      "max": 5
     },
     "release": {
       "type": "date"
@@ -43,11 +43,11 @@
       "target": "api::toread.toread",
       "mappedBy": "books"
     },
-    "users_permissions_users": {
+    "ratings": {
       "type": "relation",
-      "relation": "oneToMany",
-      "target": "plugin::users-permissions.user",
-      "mappedBy": "book"
+      "relation": "manyToMany",
+      "target": "api::rating.rating",
+      "mappedBy": "books"
     }
   }
 }
