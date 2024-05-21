@@ -5,6 +5,9 @@ const registerModalBtn = document.querySelector("#registerModalBtn");
 const loginBtn = document.querySelector("#loginBtn");
 const registerUserBtn = document.querySelector("#registerUserBtn");
 const closeBtns = document.querySelectorAll(".close-button");
+/*search*/
+const searchBtn = document.querySelector("#searchBtn");
+
 /*logged in mode*/
 const homeBtn = document.querySelector("#homeBtn");
 const logOutBtn = document.querySelector("#logOutBtn");
@@ -20,11 +23,16 @@ const sortRatingBtn = document.querySelector("#sortRatingBtn");
 /*login*/
 const loginSection = document.querySelector("#loginSection");
 const loginModal = document.querySelector("#loginModal");
+const errorMsgLogin = document.querySelector("#errorMsgLogin");
+/*register*/
 const registerModal = document.querySelector("#registerModal");
+const errorMsgRegister = document.querySelector("#errorMsgRegister");
 /*startpage*/
 const bookSection = document.querySelector("#bookSection");
 const bookSectionContainer = document.querySelector("#bookSectionContainer");
 const toastNotification = document.getElementById("toastNotification");
+const bookSectionH2 = document.querySelector("#bookSectionH2");
+const bookSectionH3 = document.querySelector("#bookSectionH3");
 /*logged in mode*/
 const userPageContainer = document.querySelector("#userPageContainer");
 const userReadingList = document.querySelector("#userReadingList");
@@ -33,6 +41,7 @@ const overlayContainer = document.querySelector("#overlayContainer");
 const userNav = document.querySelector("#userNav");
 const currentUserName = document.querySelector("#currentUserName");
 const ratingModal = document.querySelector("#ratingModal");
+const bottomRow = document.querySelector("#bottomRow");
 
 //query selectors user input elements
 /*register*/
@@ -42,6 +51,8 @@ const userPasswordInput = document.querySelector("#userPasswordInput");
 /*login*/
 const identifierInput = document.querySelector("#identifierInput");
 const passwordInput = document.querySelector("#passwordInput");
+/*search*/
+const searchInput = document.querySelector("#searchInput");
 
 // current user and jwt
 let token;
@@ -67,6 +78,7 @@ const applyTheme = async () => {
   let theme = await getTheme();
   // console.log(theme);
   document.body.classList.add(`${theme}`);
+  overlayContainer.classList.add(`${theme}`);
 };
 
 // get books from api
@@ -75,6 +87,24 @@ const getBooks = async () => {
   return response.data.data;
 };
 
+const bookSearch = async (input) => {
+  let response = await axios.get("http://localhost:1337/api/books?populate=*", {
+    params: {
+      filters: {
+        $or: [
+          { author: { $contains: input } },
+          { title: { $contains: input } },
+        ],
+      },
+    },
+  });
+  return response.data.data;
+};
+
+const changeHeadings = (heading1, heading2, text1, text2) => {
+  heading1.innerHTML = text1;
+  heading2.innerHTML = text2;
+};
 // create book card for start page
 const createBookCard = (array) => {
   bookSection.innerHTML = "";
@@ -92,11 +122,12 @@ const createBookCard = (array) => {
       "src",
       `http://localhost:1337${element.attributes.cover.data.attributes.url}`
     );
+    cover.setAttribute("alt", "book-cover");
     title.textContent = element.attributes.title;
     spanContainer.classList.add("book-info");
-    author.textContent = element.attributes.author;
-    pages.textContent = `${element.attributes.pages} pages`;
-    release.textContent = `Release: ${element.attributes.release}`;
+    author.textContent = `by ${element.attributes.author}`;
+    pages.textContent = `Pages: ${element.attributes.pages}`;
+    release.textContent = `Publication date: ${element.attributes.release}`;
     if (element.attributes.average_rating == null) {
       rating.textContent = `Rating: Not yet rated!`;
     } else {
@@ -105,7 +136,7 @@ const createBookCard = (array) => {
     }
     // let userId = JSON.parse(sessionStorage.getItem("user")).id || "test";
     let btnContainer = createBookBtns(element.id);
-    spanContainer.append(author, pages, release, rating);
+    spanContainer.append(author, release, pages, rating);
     article.append(cover, title, spanContainer, btnContainer);
     bookSection.append(article);
   });
@@ -117,16 +148,15 @@ const createBookBtns = (bookId) => {
   const rateBtn = document.createElement("button");
   const btnContainer = document.createElement("div");
   btnContainer.classList.add("book-buttons");
-  readListBtn.textContent = "Add to reading list";
+  readListBtn.innerHTML = `Add to reading list <i class="fa-solid fa-glasses"></i>`;
   readListBtn.addEventListener("click", async () => {
     if (currentUser == null || currentUser == undefined) {
       showToast("Log in or register to create a reading list!");
     } else {
       await addToReadList(bookId);
-      showToast("The book was added to your reading list!");
     }
   });
-  rateBtn.textContent = "Rate this book";
+  rateBtn.innerHTML = `Rate this book <i class="fa-solid fa-star"></i>`;
   rateBtn.addEventListener("click", () => {
     if (currentUser == null || currentUser == undefined) {
       showToast("Log in or register to rate a book!");
@@ -154,30 +184,54 @@ const showToast = (text) => {
 
 // add book to user reading list
 const addToReadList = async (bookId) => {
-  let loggedInUser = JSON.parse(sessionStorage.getItem("user"));
-  if (loggedInUser == null) {
-    // console.log("Log in to create a reading list!"); //tell user to log in
-  }
-  let userId = loggedInUser.id;
-  // console.log(userId);
-  //todo test data: { booksToRead: {connect: [bookId] }} with put request directly to user, no toreads
-  await axios.post(
-    "http://localhost:1337/api/toreads",
-    {
-      data: {
-        books: bookId,
-        // bookId: bookId,
-        user: userId,
-      },
-    },
+  let response = await axios.get(
+    "http://localhost:1337/api/users/me?populate=deep,4",
     {
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem("token")}`,
       },
     }
   );
-  // console.log("wow its working?");
-  // console.log(bookId, loggedInUser.id);
+  let addedBooks = response.data.toreads.flatMap((item) =>
+    item.books.map((book) => book.id)
+  );
+  let userId = currentUser.id;
+  // console.log(userId);
+  //todo test data: { booksToRead: {connect: [bookId] }} with put request directly to user, no toreads
+  if (!addedBooks.includes(bookId)) {
+    await axios.post(
+      "http://localhost:1337/api/toreads",
+      {
+        data: {
+          books: bookId,
+          // bookId: bookId,
+          user: userId,
+        },
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+        },
+      }
+    );
+    // axios.put(
+    //   `http://localhost:1337/api/users/${userId}`,
+    //   {
+    //     books: {
+    //       connect: [{ id: bookId }],
+    //     },
+    //   },
+    //   {
+    //     headers: {
+    //       Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+    //     },
+    //   }
+    // );
+    console.log("connected:", bookId);
+    showToast("The book was added to your reading list!");
+  } else {
+    showToast("The book is already in your reading list!");
+  }
 };
 
 // remove book from reading list
@@ -189,14 +243,25 @@ const removeFromReadList = async (id) => {
   });
 };
 
-const sortReadingList = (array, sortBy) => {
-  array.sort((a, b) => {
-    const sortByA = a.books[0][sortBy].toLowerCase();
-    const sortByB = b.books[0][sortBy].toLowerCase();
-    if (sortByA < sortByB) return -1;
-    if (sortByA > sortByB) return 1;
-    return 0;
-  });
+const sortList = (array, sortBy) => {
+  if (sortBy === "rating") {
+    console.log("sorting by rating...");
+    array.sort((a, b) => {
+      const sortByB = b.userRating;
+      const sortByA = a.userRating;
+      if (sortByB < sortByA) return -1;
+      if (sortByB > sortByA) return 1;
+      return 0;
+    });
+  } else {
+    array.sort((a, b) => {
+      const sortByA = a.books[0][sortBy].toLowerCase();
+      const sortByB = b.books[0][sortBy].toLowerCase();
+      if (sortByA < sortByB) return -1;
+      if (sortByA > sortByB) return 1;
+      return 0;
+    });
+  }
   // console.log("sorted", array);
 };
 
@@ -216,10 +281,10 @@ const getReadList = async (sort) => {
   //todo rewrite this with /api/:pluralApiId?sort=value
   switch (sort) {
     case "title":
-      sortReadingList(dataArray, "title");
+      sortList(dataArray, "title");
       break;
     case "author":
-      sortReadingList(dataArray, "author");
+      sortList(dataArray, "author");
       break;
     default:
       dataArray;
@@ -251,27 +316,39 @@ const getReadList = async (sort) => {
 
 //add rating
 const addRating = async (bookId, userRating) => {
-  let loggedInUser = JSON.parse(sessionStorage.getItem("user"));
-  if (loggedInUser == null) {
-    // console.log("Log in to create a reading list!"); //tell user to log in
-  }
-  let userId = loggedInUser.id;
-  // console.log(userId);
-  await axios.post(
-    "http://localhost:1337/api/ratings",
-    {
-      data: {
-        books: bookId.toString(),
-        userRating: userRating,
-        user: userId,
-      },
-    },
+  let response = await axios.get(
+    "http://localhost:1337/api/users/me?populate=deep,3",
     {
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem("token")}`,
       },
     }
   );
+  let ratedBooks = response.data.ratings.flatMap((item) =>
+    item.books.map((book) => book.id)
+  );
+  console.log("rated books:", ratedBooks);
+  let userId = currentUser.id;
+  if (!ratedBooks.includes(bookId)) {
+    await axios.post(
+      "http://localhost:1337/api/ratings",
+      {
+        data: {
+          books: bookId.toString(),
+          userRating: userRating,
+          user: userId,
+        },
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+        },
+      }
+    );
+    showToast("The rating was added!");
+  } else {
+    showToast("You already rated this book!");
+  }
 };
 
 //calculate and put rating
@@ -320,17 +397,21 @@ const getRatedList = async (sort) => {
       },
     }
   );
-  let response2 = await axios.get(
-    "http://localhost:1337/api/users/me?populate=deep,4",
-    {
-      headers: {
-        Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-      },
-    }
-  );
-  console.log("rated list deep 3: ", response.data);
-  console.log("populate deep 4:", response2.data);
   const dataArray = response.data.ratings;
+  console.log("ratings: ", dataArray);
+  switch (sort) {
+    case "title":
+      sortList(dataArray, "title");
+      break;
+    case "author":
+      sortList(dataArray, "author");
+      break;
+    case "rating":
+      sortList(dataArray, "rating");
+      console.log("sorted by rating success...");
+    default:
+      dataArray;
+  }
   dataArray.forEach((object) => {
     let bookDiv = document.createElement("div");
     bookDiv.classList.add(`book-card`, `rating-${object.id}`);
@@ -375,46 +456,65 @@ const renderPage = async () => {
 
 // register user
 const registerUser = async (username, email, password) => {
-  await axios
-    .post("http://localhost:1337/api/auth/local/register", {
-      username: username,
-      email: email,
-      password: password,
-    })
-    .then((response) => {
-      // console.log("Registration successful!");
-      // console.log("User profile", response.data.user);
-      // console.log("User token", response.data.jwt);
+  try {
+    const response = await axios.post(
+      "http://localhost:1337/api/auth/local/register",
+      {
+        username: username,
+        email: email,
+        password: password,
+      }
+    );
+    if (response.data.jwt && response.data.user) {
       sessionStorage.setItem("token", response.data.jwt);
       sessionStorage.setItem("user", JSON.stringify(response.data.user));
-    })
-    .then((response) => {
-      // console.log(response);
-      logIn(username, password);
-      userNav.classList.toggle("hidden");
-      loginSection.classList.add("hidden");
-    });
-  currentUserName.innerHTML = `${username}!`;
-  renderBooks();
+      return "success";
+    } else {
+      throw new Error("Invalid Response");
+    }
+  } catch (err) {
+    console.log(err.response.data.error.message);
+    let fail = err.response.data.error.message;
+    return fail;
+  }
+};
+
+// log in new user after register
+const postRegisterLogin = async (username, email, password) => {
+  let response = await registerUser(username, email, password);
+  if (response === "success") {
+    logIn(username, password);
+    userNav.classList.toggle("hidden");
+    loginSection.classList.add("hidden");
+    toggleModal(registerModal, overlayContainer);
+    currentUserName.innerHTML = `${username}!`;
+    renderBooks();
+  } else {
+    errorMsgRegister.innerHTML = response;
+  }
 };
 
 // login
 const logIn = async (identifier, password) => {
-  await axios
-    .post("http://localhost:1337/api/auth/local", {
+  try {
+    const response = await axios.post("http://localhost:1337/api/auth/local", {
       identifier: identifier,
       password: password,
-    })
-    .then((response) => {
-      // console.log("Log in successful!");
-      // console.log("User profile", response.data.user);
-      // console.log("User token", response.data.jwt);
+    });
+    if (response.data.jwt && response.data.user) {
       sessionStorage.setItem("token", response.data.jwt);
       sessionStorage.setItem("user", JSON.stringify(response.data.user));
       currentUserName.innerHTML = `${response.data.user.username}!`;
       renderBooks();
       currentUser = JSON.parse(sessionStorage.getItem("user"));
-    });
+      return "success";
+    } else {
+      throw new Error("Invalid Response");
+    }
+  } catch (err) {
+    let fail = err.response.data.error.message;
+    return fail;
+  }
 };
 
 // render page on load
@@ -426,14 +526,19 @@ loginModalBtn.addEventListener("click", () => {
 });
 
 loginBtn.addEventListener("click", async () => {
-  toggleModal(loginModal, overlayContainer);
-  await logIn(identifierInput.value, passwordInput.value);
-  userNav.classList.toggle("hidden");
-  loginSection.classList.toggle("hidden");
-  const btnContainers = document.querySelectorAll(".book-buttons");
-  btnContainers.forEach((container) => {
-    container.classList.toggle("hidden");
-  });
+  const response = await logIn(identifierInput.value, passwordInput.value);
+  console.log(response);
+  if (response === "success") {
+    userNav.classList.toggle("hidden");
+    loginSection.classList.toggle("hidden");
+    const btnContainers = document.querySelectorAll(".book-buttons");
+    btnContainers.forEach((container) => {
+      container.classList.toggle("hidden");
+    });
+    toggleModal(loginModal, overlayContainer);
+  } else {
+    errorMsgLogin.innerHTML = response;
+  }
 });
 
 registerModalBtn.addEventListener("click", () => {
@@ -441,12 +546,11 @@ registerModalBtn.addEventListener("click", () => {
 });
 
 registerUserBtn.addEventListener("click", async () => {
-  await registerUser(
+  await postRegisterLogin(
     usernameInput.value,
     userEmailInput.value,
     userPasswordInput.value
   );
-  toggleModal(registerModal, overlayContainer);
 });
 
 closeBtns.forEach((btn) => {
@@ -459,6 +563,11 @@ closeBtns.forEach((btn) => {
     // } else {
     //   loginModalBtn.classList.toggle("hidden");
     // }
+    const spanElement = event.target.parentElement.querySelector("span");
+    console.log(spanElement);
+    if (spanElement) {
+      spanElement.innerHTML = "";
+    }
   });
 });
 
@@ -466,15 +575,18 @@ homeBtn.addEventListener("click", async () => {
   await renderBooks();
   bookSectionContainer.classList.remove("hidden");
   userPageContainer.classList.add("hidden");
+  bottomRow.classList.remove("hidden");
 });
 
 myPageBtn.addEventListener("click", async () => {
   bookSectionContainer.classList.add("hidden");
   userPageContainer.classList.remove("hidden");
+  bottomRow.classList.add("hidden");
   await getReadList("default");
   await getRatedList();
 });
 
+// sort reading list
 sortTitleBtn.addEventListener("click", async () => {
   await getReadList("title");
 });
@@ -484,12 +596,8 @@ sortAuthorBtn.addEventListener("click", async () => {
 });
 
 logOutBtn.addEventListener("click", () => {
-  // renderPage();
   location.reload();
   sessionStorage.clear();
-  // userNav.classList.toggle("hidden");
-  // loginSection.classList.toggle("hidden");
-  //todo test with location.reload
 });
 
 addRatingBtn.addEventListener("click", async () => {
@@ -499,7 +607,6 @@ addRatingBtn.addEventListener("click", async () => {
   await addRating(currentBook, selectedRating.value);
   await calulateRating(currentBook);
   toggleModal(ratingModal, overlayContainer);
-  showToast("The rating was added!");
   await renderBooks();
   /*skriv en funktion som hämtar alla ratings för currentbook och räknar ut medelvärdet, sedan gör en post till currentbook.averagerating*/
   // let response = await axios.get(
@@ -511,4 +618,50 @@ addRatingBtn.addEventListener("click", async () => {
   //   }
   // );
   // console.log(response);
+});
+
+// sort rated list
+sortTitleBtn2.addEventListener("click", async () => {
+  await getRatedList("title");
+});
+
+sortAuthorBtn2.addEventListener("click", async () => {
+  await getRatedList("author");
+});
+
+sortRatingBtn.addEventListener("click", async () => {
+  await getRatedList("rating");
+});
+
+searchBtn.addEventListener("click", async () => {
+  let userInput = searchInput.value;
+  let response = await bookSearch(userInput);
+  console.log("search result:", response);
+  if (response.length >= 1) {
+    createBookCard(response);
+    changeHeadings(
+      bookSectionH2,
+      bookSectionH3,
+      "Search results",
+      `${response.length} book(s) found!`
+    );
+  } else {
+    showToast("No matching results found!");
+    bookSection.innerHTML = "";
+    changeHeadings(
+      bookSectionH2,
+      bookSectionH3,
+      "Search results",
+      `${response.length} book(s) found!`
+    );
+    setTimeout(async () => {
+      await renderBooks();
+      changeHeadings(
+        bookSectionH2,
+        bookSectionH3,
+        "Our books",
+        `Recently added`
+      );
+    }, 3000);
+  }
 });

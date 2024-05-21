@@ -15,109 +15,164 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Major+Mono+Display&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Major+Mono+Display&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet"
     />
+
     <link
       rel="stylesheet"
       type="text/css"
       href="assets/css/starability-basic.css"
     />
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16x16.png">
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="assets/icons/favicon-16x16.png"
+    />
     <script
       src="https://kit.fontawesome.com/c29d3c799e.js"
       crossorigin="anonymous"
     ></script>
   </head>
   <body>
-    <header>
-      <img id="logo" src="assets/images/logo.png" alt="logo" />
-    </header>
-    <!-- toast notification element -->
     <div id="toastNotification" class="toastNotification"></div>
+    <div id="overlayContainer" class="hidden overlay"></div>
+    <div id="ratingModal" class="hidden">
+      <i class="fa-regular fa-circle-xmark close-button"></i>
+      <h2>Rate This Book</h2>
+      <fieldset class="starability-basic">
+        <legend>Your rating:</legend>
+        <input
+          type="radio"
+          id="no-rate"
+          class="input-no-rate"
+          name="rating"
+          value="0"
+          checked
+          aria-label="No rating."
+        />
+        <input type="radio" id="first-rate1" name="rating" value="1" />
+        <label for="first-rate1" title="Terrible">1 star</label>
 
+        <input type="radio" id="first-rate2" name="rating" value="2" />
+        <label for="first-rate2" title="Not good">2 stars</label>
+
+        <input type="radio" id="first-rate3" name="rating" value="3" />
+        <label for="first-rate3" title="Okay">3 stars</label>
+
+        <input type="radio" id="first-rate4" name="rating" value="4" />
+        <label for="first-rate4" title="Good">4 stars</label>
+
+        <input type="radio" id="first-rate5" name="rating" value="5" />
+        <label for="first-rate5" title="Best book ever">5 stars</label>
+      </fieldset>
+      <button id="addRatingBtn">
+        Add rating <i class="fa-solid fa-plus"></i>
+      </button>
+    </div>
     <div class="page-wrapper">
-      <!-- <h1>booK ducKs</h1> -->
-      <div id="overlayContainer" class="hidden overlay"></div>
-      <!--rating modal-->
-              <div id="ratingModal" class="hidden">
-          <i class="fa-regular fa-circle-xmark close-button"></i>
-          <fieldset class="starability-basic">
-            <legend>Your rating:</legend>
+      <header>
+        <div id="topRow">
+          <div id="headerLeft">
+            <a href="index.html">
+              <img id="logo" src="assets/images/logo.png" alt="logo" />
+            </a>
+            <a href="index.html">
+              <h1>booK ducKs</h1>
+            </a>
+          </div>
+          <div id="headerRight">
+            <section id="loginSection">
+              <button id="loginModalBtn">
+                Log in <i class="fa-solid fa-user"></i>
+              </button>
+              <button id="registerModalBtn">
+                Register <i class="fa-solid fa-user-plus"></i>
+              </button>
+              <!--register modal-->
+              <div id="registerModal" class="hidden">
+                <h2>Register</h2>
+                <i class="fa-regular fa-circle-xmark close-button"></i>
+                <label for="usernameInput">Username</label>
+                <input type="text" name="register" id="usernameInput" />
+                <label for="userEmailInput">Email</label>
+                <input type="email" name="register" id="userEmailInput" />
+                <label for="userPasswordInput">Password</label>
+                <input type="password" name="register" id="userPasswordInput" />
+                <button id="registerUserBtn">
+                  Register me! <i class="fa-solid fa-user-plus"></i>
+                </button>
+                <span id="errorMsgRegister"></span>
+              </div>
+              <!--login modal-->
+              <div id="loginModal" class="hidden">
+                <h2>Log In</h2>
+                <i class="fa-regular fa-circle-xmark close-button"></i>
+                <label for="identifierInput">Username or email</label>
+                <input type="text" name="login" id="identifierInput" />
+                <label for="passwordInput">Password</label>
+                <input type="password" name="login" id="passwordInput" />
+                <button id="loginBtn">
+                  Log in! <i class="fa-solid fa-user"></i>
+                </button>
+                <span id="errorMsgLogin"></span>
+              </div>
+            </section>
+            <section id="userNav" class="hidden">
+              <h2>Welcome <span id="currentUserName">User</span></h2>
+              <nav>
+                <ul>
+                  <li>
+                    <button id="homeBtn">
+                      Home<i class="fa-solid fa-house"></i>
+                    </button>
+                  </li>
+                  <li>
+                    <button id="myPageBtn">
+                      My page<i class="fa-solid fa-circle-user"></i>
+                    </button>
+                  </li>
+                  <li>
+                    <button id="logOutBtn">
+                      Log out<i class="fa-solid fa-right-from-bracket"></i>
+                    </button>
+                  </li>
+                </ul>
+              </nav>
+            </section>
+          </div>
+        </div>
+        <div id="bottomRow">
+          <div id="headerBottom">
             <input
-              type="radio"
-              id="no-rate"
-              class="input-no-rate"
-              name="rating"
-              value="0"
-              checked
-              aria-label="No rating."
+              type="text"
+              name="search"
+              id="searchInput"
+              placeholder="Book title"
             />
-            <input type="radio" id="first-rate1" name="rating" value="1" />
-            <label for="first-rate1" title="Terrible">1 star</label>
-
-            <input type="radio" id="first-rate2" name="rating" value="2" />
-            <label for="first-rate2" title="Not good">2 stars</label>
-
-            <input type="radio" id="first-rate3" name="rating" value="3" />
-            <label for="first-rate3" title="Okay">3 stars</label>
-
-            <input type="radio" id="first-rate4" name="rating" value="4" />
-            <label for="first-rate4" title="Good">4 stars</label>
-
-            <input type="radio" id="first-rate5" name="rating" value="5" />
-            <label for="first-rate5" title="Best book ever">5 stars</label>
-          </fieldset>
-          <button id="addRatingBtn">Add rating</button>
+            <button id="searchBtn">
+              Search <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+          </div>
         </div>
-      <section id="loginSection">
-        <button id="loginModalBtn">Log in</button>
-        <button id="registerModalBtn">Register</button>
-             <!--register modal-->
-        <div id="registerModal" class="hidden">
-          <i class="fa-regular fa-circle-xmark close-button"></i>
-          <label for="usernameInput">Username</label>
-          <input type="text" name="register" id="usernameInput" />
-          <label for="userEmailInput">Email</label>
-          <input type="email" name="register" id="userEmailInput" />
-          <label for="userPasswordInput">Password</label>
-          <input type="password" name="register" id="userPasswordInput" />
-          <button id="registerUserBtn">Register me!</button>
-        </div>
-             <!--login modal-->
-        <div id="loginModal" class="hidden">
-          <i class="fa-regular fa-circle-xmark close-button"></i>
-          <label for="identifierInput">Username or email</label>
-          <input type="text" name="login" id="identifierInput" />
-          <label for="passwordInput">Password</label>
-          <input type="password" name="login" id="passwordInput" />
-          <button id="loginBtn">Log in!</button>
-          <span id="errorMsg">test</span>
-        </div>
-      </section>
-      <section id="userNav" class="hidden">
-        <h2>Welcome <span id="currentUserName">User</span></h2>
-        <nav>
-          <ul>
-            <li><button id="homeBtn">Home</button></li>
-            <li><button id="myPageBtn">My page</button></li>
-            <li><button id="logOutBtn">Log out</button></li>
-          </ul>
-        </nav>
-      </section>
+      </header>
+      <!-- toast notification element -->
+      <!--rating modal-->
       <section id="bookSectionContainer">
-        <h2>Our books</h2>
+        <h2 id="bookSectionH2">Our books</h2>
+        <h3 id="bookSectionH3">Recently added</h3>
         <article id="bookSection"></article>
       </section>
       <section id="userPageContainer" class="hidden">
-        <h3>Profile</h3>
-        <h4>Reading list</h4>
+        <h2>Profile</h2>
+        <h3>Reading list</h3>
         <article id="readListBtns">
           <button id="sortTitleBtn">Sort by title</button>
           <button id="sortAuthorBtn">Sort by author</button>
         </article>
         <article id="userReadingList"></article>
-        <h4>Rated books</h4>
+        <h3>Rated books</h3>
         <article id="ratedListBtns">
           <button id="sortTitleBtn2">Sort by title</button>
           <button id="sortAuthorBtn2">Sort by author</button>
@@ -125,6 +180,26 @@
         </article>
         <article id="userRatedList"></article>
       </section>
+      <footer>
+        <div id="footerText">
+          <p>
+            Powered by
+            <a href="https://strapi.io/" target="_blank">Strapi</a>,
+            <a href="https://axios-http.com/" target="_blank">Axios</a>,
+            <a href="https://fontawesome.com/" target="_blank">FontAwesome</a>,
+            <a href="https://beta.colorsystem.io/home" target="_blank"
+              >Color System</a
+            >
+            and
+            <a href="https://www.bing.com/images/create" target="_blank"
+              >Bing Image Creator.</a
+            >
+          </p>
+          <p>A special thanks to <a href="https://github.com/LunarLogic" target="_blank">LunarLogic</a> for Starability</p>
+          <p>Ankademin 2024 &#169;</p>
+        </div>
+        <img id="logo" src="assets/images/logo.png" alt="logo" />
+      </footer>
     </div>
   </body>
 </html>

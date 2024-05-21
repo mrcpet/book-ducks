@@ -1,17 +1,168 @@
+@import "colors";
+
 .hidden {
   display: none !important;
 }
 .dark {
-  background-color: black;
-  color: white;
+  background-color: $gray-800;
+  color: $gray-50;
+  header {
+    border-bottom: 2px solid $brand-700;
+  }
+  footer {
+    border-top: 2px solid $brand-700;
+  }
+  button {
+    background-color: $brand-500;
+    color: $gray-50;
+    &:hover {
+      background-color: $brand-600;
+    }
+    &:active {
+      background-color: $brand-700;
+    }
+    i {
+      color: $brand-100;
+    }
+  }
+  .close-button {
+    &:hover {
+      color: $brand-600;
+    }
+    &:active {
+      color: $brand-700;
+    }
+  }
+  .book-card {
+    background-color: $brand-700;
+    color: $gray-100;
+  }
+  .toastNotification {
+    background-color: $gray-700;
+  }
+  #loginModal,
+  #registerModal,
+  #ratingModal {
+    background-color: $gray-700;
+    color: $gray-100;
+    button {
+      i {
+        color: $success-300;
+      }
+    }
+  }
+  #errorMsgLogin,
+  #errorMsgRegister {
+    color: $warning-200;
+  }
 }
 .light {
-  background-color: white;
-  color: black;
+  background-color: $gray-50;
+  color: $gray-800;
+  header {
+    border-bottom: 2px solid $gray-300;
+  }
+  footer {
+    border-top: 2px solid $gray-300;
+  }
+  button {
+    background-color: $gray-50;
+    color: $gray-900;
+    &:hover {
+      background-color: $gray-100;
+    }
+    &:active {
+      background-color: $gray-200;
+    }
+    i {
+      color: $brand-700;
+    }
+  }
+  .close-button {
+    &:hover {
+      color: $gray-200;
+    }
+    &:active {
+      color: $gray-300;
+    }
+  }
+  .book-card {
+    background-color: $brand-100;
+    color: $gray-700;
+  }
+  .toastNotification {
+    background-color: $gray-100;
+  }
+  #loginModal,
+  #registerModal,
+  #ratingModal {
+    background-color: $gray-100;
+    color: $gray-700;
+    button {
+      i {
+        color: $success-600;
+      }
+    }
+  }
+  #errorMsgLogin,
+  #errorMsgRegister {
+    color: $warning-700;
+  }
 }
 .summer {
-  background-color: lightblue;
-  color: orangered;
+  background-color: $summer-300;
+  color: $summer-accent-800;
+  header {
+    border-bottom: 2px solid $summer-400;
+  }
+  footer {
+    border-top: 2px solid $summer-400;
+  }
+  button {
+    background-color: $summer-100;
+    color: $summer-accent-800;
+    &:hover {
+      background-color: $summer-200;
+    }
+    &:active {
+      background-color: $summer-400;
+      color: $summer-accent-800;
+    }
+    i {
+      color: $brand-700;
+    }
+  }
+  .close-button {
+    &:hover {
+      color: $summer-300;
+    }
+    &:active {
+      color: $summer-400;
+    }
+  }
+  .book-card {
+    background-color: $summer-200;
+    color: $summer-accent-800;
+  }
+  .toastNotification {
+    background-color: $summer-200;
+  }
+  #loginModal,
+  #registerModal,
+  #ratingModal {
+    background-color: $summer-100;
+    color: $summer-accent-800;
+    button {
+      background-color: $summer-200;
+      i {
+        color: $success-600;
+      }
+    }
+  }
+  #errorMsgLogin,
+  #errorMsgRegister {
+    color: $warning-800;
+  }
 }
 .overlay {
   position: fixed;
@@ -19,6 +170,38 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.9);
   z-index: 999;
+}
+button {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  line-height: 1.5;
+  margin: 1rem;
+  font-weight: 600;
+  font-size: 0.85rem;
+  border: none;
+  border-radius: 0.25rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  text-decoration: none;
+
+  &:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    transform: translateY(-3px);
+  }
+
+  &:active {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transform: translateY(0);
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.5);
+  }
+  i {
+    font-size: 1.15rem;
+  }
 }
