@@ -1,4 +1,5 @@
 $gray-50: #f5f9ff;
+$gray-75: #e1e6f7;
 $gray-100: #d6dbe4;
 $gray-200: #b8beca;
 $gray-300: #9ba2b0;
@@ -17,7 +18,9 @@ $brand-500: #627fbc;
 $brand-600: #435c92;
 $brand-700: #263b69;
 $brand-800: #0c1c43;
-$brand-900: #000220;
+$brand-850: #0b1935;
+$brand-900: #07122e;
+// $brand-900: #000220;
 $accent-50: #fff7ad;
 $accent-100: #ffdd94;
 $accent-200: #e7c47b;
@@ -28,8 +31,6 @@ $accent-600: #75590f;
 $accent-700: #513800;
 $accent-800: #301a00;
 $accent-900: #110200;
-
-
 
 $success-50: #c3ffe1;
 $success-100: #a9f7c8;
@@ -62,24 +63,25 @@ $danger-700: #62282c;
 $danger-800: #3c0a11;
 $danger-900: #190000;
 
-$summer-50: #e0f7fa;    /* Light Cyan */
-$summer-100: #b3e5fc;   /* Light Blue */
-$summer-200: #81d4fa;   /* Sky Blue */
-$summer-300: #4fc3f7;   /* Bright Blue */
-$summer-400: #29b6f6;   /* Light Azure */
-$summer-500: #03a9f4;   /* Vivid Blue */
-$summer-600: #039be5;   /* Deep Blue */
-$summer-700: #0288d1;   /* Dark Blue */
-$summer-800: #0277bd;   /* Navy Blue */
-$summer-900: #01579b;   /* Midnight Blue */
+$summer-50: #e0f7fa; 
+$summer-100: #b3e5fc; 
+$summer-200: #81d4fa; 
+$summer-250: #65c9f3;
+$summer-300: #4fc3f7; 
+$summer-400: #29b6f6; 
+$summer-500: #03a9f4; 
+$summer-600: #039be5; 
+$summer-700: #0288d1; 
+$summer-800: #0277bd; 
+$summer-900: #01579b; 
 
-$summer-accent-50: #ffebee;    /* Light Pink */
-$summer-accent-100: #ffcdd2;   /* Soft Pink */
-$summer-accent-200: #ef9a9a;   /* Warm Pink */
-$summer-accent-300: #e57373;   /* Bright Pink */
-$summer-accent-400: #ef5350;   /* Vibrant Red */
-$summer-accent-500: #f44336;   /* Red */
-$summer-accent-600: #e53935;   /* Deep Red */
-$summer-accent-700: #d32f2f;   /* Dark Red */
-$summer-accent-800: #c62828;   /* Crimson */
-$summer-accent-900: #b71c1c;   /* Maroon */
+$summer-accent-50: #ffebee; 
+$summer-accent-100: #ffcdd2; 
+$summer-accent-200: #ef9a9a; 
+$summer-accent-300: #e57373;
+$summer-accent-400: #ef5350;
+$summer-accent-500: #f44336;
+$summer-accent-600: #e53935;
+$summer-accent-700: #d32f2f; 
+$summer-accent-800: #c62828;
+$summer-accent-900: #b71c1c;

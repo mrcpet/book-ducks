@@ -4,10 +4,13 @@
   display: none !important;
 }
 .dark {
-  background-color: $gray-800;
+  background-color: $brand-900;
   color: $gray-50;
   header {
     border-bottom: 2px solid $brand-700;
+    h1 {
+      color: $brand-200;
+    }
   }
   footer {
     border-top: 2px solid $brand-700;
@@ -34,11 +37,12 @@
     }
   }
   .book-card {
-    background-color: $brand-700;
+    background-color: $brand-800;
     color: $gray-100;
   }
   .toastNotification {
     background-color: $gray-700;
+    border-color: $warning-200;
   }
   #loginModal,
   #registerModal,
@@ -47,7 +51,7 @@
     color: $gray-100;
     button {
       i {
-        color: $success-300;
+        color: $success-200;
       }
     }
   }
@@ -58,15 +62,18 @@
 }
 .light {
   background-color: $gray-50;
-  color: $gray-800;
+  color: $brand-800;
   header {
-    border-bottom: 2px solid $gray-300;
+    border-bottom: 2px solid $brand-100;
+    h1 {
+      color: $brand-700;
+    }
   }
   footer {
-    border-top: 2px solid $gray-300;
+    border-top: 2px solid $brand-100;
   }
   button {
-    background-color: $gray-50;
+    background-color: $gray-75;
     color: $gray-900;
     &:hover {
       background-color: $gray-100;
@@ -87,11 +94,12 @@
     }
   }
   .book-card {
-    background-color: $brand-100;
+    background-color: $brand-50;
     color: $gray-700;
   }
   .toastNotification {
     background-color: $gray-100;
+    border-color: $warning-700;
   }
   #loginModal,
   #registerModal,
@@ -141,11 +149,12 @@
     }
   }
   .book-card {
-    background-color: $summer-200;
+    background-color: $summer-250;
     color: $summer-accent-800;
   }
   .toastNotification {
     background-color: $summer-200;
+    border-color: $warning-800;
   }
   #loginModal,
   #registerModal,

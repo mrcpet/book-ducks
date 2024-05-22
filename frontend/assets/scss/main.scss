@@ -11,8 +11,9 @@ body {
     bottom: 0rem;
     left: 50%;
     transform: translateX(-50%);
-    padding: 1rem 2rem;
-    border-radius: 0.25rem;
+    padding: 2rem 4rem;
+    border: 2px solid;
+    border-radius: 0.5rem;
     display: none;
   }
   .page-wrapper {
@@ -61,8 +62,10 @@ body {
           justify-content: center;
           width: 100%;
           align-items: center;
+          padding-bottom: 2rem;
           #searchBtn {
             min-width: 8rem;
+            margin: 0 0 0 1rem;
           }
         }
       }
@@ -92,6 +95,9 @@ body {
         display: flex;
         flex-direction: column;
         align-items: center;
+        p {
+          margin: 0;
+        }
       }
       @media screen and (max-width: 767px) {
         flex-direction: column;
@@ -107,10 +113,10 @@ body {
     h2,
     h3 {
       text-align: center;
-      font-weight: 400;
+      font-weight: 500;
     }
-    h4 {
-      margin: 0rem;
+    h3 {
+      font-size: 1rem;
     }
     a {
       color: inherit;
@@ -161,13 +167,12 @@ body {
         @media screen and (max-width: 767px) {
           flex-direction: column;
         }
-
         .book-card {
           display: flex;
           flex-direction: column;
           border-radius: 0.5rem;
           padding: 1rem;
-          // min-width: 12rem;
+          min-width: 12rem;
           p {
             font-size: 0.75rem;
             margin: 0;
@@ -191,8 +196,14 @@ body {
         border-radius: 0.5rem;
         padding: 1rem;
         gap: 1rem;
+        h3 {
+          margin: 0;
+        }
         img {
           border-radius: 0.5rem;
+          @media screen and (min-width: 990px) {
+            max-height: 12rem;
+          }
         }
         span {
           font-size: 0.75rem;
@@ -211,6 +222,25 @@ body {
           }
         }
       }
+    }
+  }
+  #paws, #pawsMobile {
+    width: 10rem;
+    position: absolute;
+    top: 15%;
+    left: 25%;
+    transform: rotate(-35deg) skewX(5deg);
+    opacity: 0.4;
+    @media screen and (max-width: 1440px) {
+      display: none;
+    }
+  }
+  #pawsMobile {
+    display: none;
+    @media screen and (max-width: 768px) {
+      top: 5%;
+      left: 1%;
+      display: inline-block;
     }
   }
 }

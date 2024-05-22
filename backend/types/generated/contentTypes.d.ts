@@ -362,6 +362,168 @@ export interface AdminTransferTokenPermission extends Schema.CollectionType {
   };
 }
 
+export interface ApiBookBook extends Schema.CollectionType {
+  collectionName: 'books';
+  info: {
+    singularName: 'book';
+    pluralName: 'books';
+    displayName: 'Book';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    title: Attribute.String;
+    author: Attribute.String;
+    pages: Attribute.Integer;
+    average_rating: Attribute.Decimal &
+      Attribute.SetMinMax<
+        {
+          min: 1;
+          max: 5;
+        },
+        number
+      >;
+    release: Attribute.Date;
+    cover: Attribute.Media;
+    toreads: Attribute.Relation<
+      'api::book.book',
+      'manyToMany',
+      'api::toread.toread'
+    >;
+    ratings: Attribute.Relation<
+      'api::book.book',
+      'manyToMany',
+      'api::rating.rating'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::book.book', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<'api::book.book', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+  };
+}
+
+export interface ApiRatingRating extends Schema.CollectionType {
+  collectionName: 'ratings';
+  info: {
+    singularName: 'rating';
+    pluralName: 'ratings';
+    displayName: 'Rating';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    userRating: Attribute.Integer &
+      Attribute.Required &
+      Attribute.SetMinMax<
+        {
+          min: 0;
+          max: 5;
+        },
+        number
+      >;
+    books: Attribute.Relation<
+      'api::rating.rating',
+      'manyToMany',
+      'api::book.book'
+    >;
+    user: Attribute.Relation<
+      'api::rating.rating',
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::rating.rating',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::rating.rating',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiToreadToread extends Schema.CollectionType {
+  collectionName: 'toreads';
+  info: {
+    singularName: 'toread';
+    pluralName: 'toreads';
+    displayName: 'Toread';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    books: Attribute.Relation<
+      'api::toread.toread',
+      'manyToMany',
+      'api::book.book'
+    >;
+    user: Attribute.Relation<
+      'api::toread.toread',
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::toread.toread',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::toread.toread',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiWebpageWebpage extends Schema.SingleType {
+  collectionName: 'webpages';
+  info: {
+    singularName: 'webpage';
+    pluralName: 'webpages';
+    displayName: 'webpage';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    colorTheme: Attribute.Enumeration<['dark', 'light', 'summer']> &
+      Attribute.DefaultTo<'dark'>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::webpage.webpage',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::webpage.webpage',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface PluginUploadFile extends Schema.CollectionType {
   collectionName: 'files';
   info: {
@@ -797,169 +959,6 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
 }
 
-export interface ApiBookBook extends Schema.CollectionType {
-  collectionName: 'books';
-  info: {
-    singularName: 'book';
-    pluralName: 'books';
-    displayName: 'Book';
-    description: '';
-  };
-  options: {
-    draftAndPublish: false;
-  };
-  attributes: {
-    title: Attribute.String;
-    author: Attribute.String;
-    pages: Attribute.Integer;
-    average_rating: Attribute.Decimal &
-      Attribute.SetMinMax<
-        {
-          min: 1;
-          max: 5;
-        },
-        number
-      >;
-    release: Attribute.Date;
-    cover: Attribute.Media;
-    toreads: Attribute.Relation<
-      'api::book.book',
-      'manyToMany',
-      'api::toread.toread'
-    >;
-    ratings: Attribute.Relation<
-      'api::book.book',
-      'manyToMany',
-      'api::rating.rating'
-    >;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<'api::book.book', 'oneToOne', 'admin::user'> &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<'api::book.book', 'oneToOne', 'admin::user'> &
-      Attribute.Private;
-  };
-}
-
-export interface ApiRatingRating extends Schema.CollectionType {
-  collectionName: 'ratings';
-  info: {
-    singularName: 'rating';
-    pluralName: 'ratings';
-    displayName: 'Rating';
-    description: '';
-  };
-  options: {
-    draftAndPublish: false;
-  };
-  attributes: {
-    userRating: Attribute.Integer &
-      Attribute.Required &
-      Attribute.SetMinMax<
-        {
-          min: 0;
-          max: 5;
-        },
-        number
-      >;
-    books: Attribute.Relation<
-      'api::rating.rating',
-      'manyToMany',
-      'api::book.book'
-    >;
-    user: Attribute.Relation<
-      'api::rating.rating',
-      'manyToOne',
-      'plugin::users-permissions.user'
-    >;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::rating.rating',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::rating.rating',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiToreadToread extends Schema.CollectionType {
-  collectionName: 'toreads';
-  info: {
-    singularName: 'toread';
-    pluralName: 'toreads';
-    displayName: 'Toread';
-    description: '';
-  };
-  options: {
-    draftAndPublish: false;
-  };
-  attributes: {
-    books: Attribute.Relation<
-      'api::toread.toread',
-      'manyToMany',
-      'api::book.book'
-    >;
-    user: Attribute.Relation<
-      'api::toread.toread',
-      'manyToOne',
-      'plugin::users-permissions.user'
-    >;
-    bookId: Attribute.Integer;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::toread.toread',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::toread.toread',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiWebpageWebpage extends Schema.SingleType {
-  collectionName: 'webpages';
-  info: {
-    singularName: 'webpage';
-    pluralName: 'webpages';
-    displayName: 'webpage';
-    description: '';
-  };
-  options: {
-    draftAndPublish: false;
-  };
-  attributes: {
-    colorTheme: Attribute.Enumeration<['dark', 'light', 'summer']> &
-      Attribute.DefaultTo<'dark'>;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::webpage.webpage',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::webpage.webpage',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
 declare module '@strapi/types' {
   export module Shared {
     export interface ContentTypes {
@@ -970,6 +969,10 @@ declare module '@strapi/types' {
       'admin::api-token-permission': AdminApiTokenPermission;
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
+      'api::book.book': ApiBookBook;
+      'api::rating.rating': ApiRatingRating;
+      'api::toread.toread': ApiToreadToread;
+      'api::webpage.webpage': ApiWebpageWebpage;
       'plugin::upload.file': PluginUploadFile;
       'plugin::upload.folder': PluginUploadFolder;
       'plugin::content-releases.release': PluginContentReleasesRelease;
@@ -978,10 +981,6 @@ declare module '@strapi/types' {
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
-      'api::book.book': ApiBookBook;
-      'api::rating.rating': ApiRatingRating;
-      'api::toread.toread': ApiToreadToread;
-      'api::webpage.webpage': ApiWebpageWebpage;
     }
   }
 }
